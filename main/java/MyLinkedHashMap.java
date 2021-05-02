@@ -45,4 +45,25 @@ public class MyLinkedHashMap<k,v> {
             myMapNode.setValue(value);
         }
     }
+
+    public INode remove(k dKey) {
+        int index = this.getBucketIndex(dKey);
+        MyLinkdList<k> myLinkedList = this.myBucketsArray.get(index);
+        if(myLinkedList == null) return null;
+        MyMapNode<k,v> previousNode = (MyMapNode<k,v>) myLinkedList.head;
+        MyMapNode<k,v> currentNode = (MyMapNode<k,v>) myLinkedList.head;
+        INode tempNode=null;
+        if(currentNode != null && currentNode.getKey().equals(dKey)) {
+            tempNode=currentNode;
+            myLinkedList.head=currentNode.getNext();
+            return tempNode;
+        }
+        while(currentNode != null && !(currentNode.getKey().equals(dKey))) {
+            previousNode=currentNode;
+            currentNode= (MyMapNode<k,v>) currentNode.getNext();
+        }
+        tempNode=currentNode;
+        previousNode.setNext(currentNode.getNext());
+        return tempNode;
+    }
 }
